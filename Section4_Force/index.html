@@ -23,17 +23,22 @@ var svg = d3.select("body").append("svg")
     .attr("height", height);
 
 var force = d3.layout.force()
-    .size([width, height]);
+    .size([width, height])
+    .linkStrength(0.05)
+    .charge(-30)
+    .gravity(0.05)
+    .theta(0.95);
 
-d3.csv("graph.csv", function(error, links) {
+
+d3.csv("mygraph.csv", function(error, links) {
   if (error) throw error;
 
   var nodesByName = {};
 
   // Create nodes for each unique source and target.
   links.forEach(function(link) {
-    link.source = nodeByName(link.source);
-    link.target = nodeByName(link.target);
+    link.source = nodeByName(link.ORIGIN);
+    link.target = nodeByName(link.DEST);
   });
 
   // Extract the array of nodes from the map by name.
